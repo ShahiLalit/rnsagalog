@@ -1,27 +1,29 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../containers/home';
 import Signin from '../containers/signin';
 import Signup from '../containers/signup';
-import { ActivityIndicator, View } from 'react-native';
-import { connect } from 'react-redux';
+import {ActivityIndicator, View} from 'react-native';
+import {connect} from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
 const SplashScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    {/* Loader*/}
     <ActivityIndicator size="large" color="red" />
   </View>
-)
+);
 
 class Routes extends React.Component {
   render() {
-    const { loading, userToken } = this.props;
+    const {loading, userToken} = this.props;
     return (
       <NavigationContainer>
-        {loading ?
-          <SplashScreen /> :
+        {loading ? (
+          <SplashScreen />
+        ) : (
           <Stack.Navigator>
             {userToken == null ? (
               <>
@@ -33,9 +35,8 @@ class Routes extends React.Component {
                 <Stack.Screen name="Home" component={Home} />
               </>
             )}
-
-
-          </Stack.Navigator>}
+          </Stack.Navigator>
+        )}
       </NavigationContainer>
     );
   }
@@ -43,7 +44,6 @@ class Routes extends React.Component {
 
 const mapStateToProps = state => ({
   userToken: state.login.userToken,
-  loading: state.login.loading
-
-})
+  loading: state.login.loading,
+});
 export default connect(mapStateToProps)(Routes);
